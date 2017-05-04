@@ -3,7 +3,7 @@
 
 
       this.albumData = angular.copy(albumPicasso);
-      console.log(this.albumData);
+      
 
 
     }
