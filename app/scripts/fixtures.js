@@ -1,5 +1,5 @@
 var albumPicasso = {
-     title: 'Pablo',
+     title: 'Love Song',
      artist: 'Pablo',
      label: 'Good Music',
      year: '1881',
@@ -12,7 +12,7 @@ var albumPicasso = {
          { title: 'Magenta', duration: 374.22, audioUrl: 'assets/music/magenta' }
      ]
  };
- 
+
  var albumMarconi = {
      title: 'The Telephone',
      artist: 'Guglielmo Marconi',
