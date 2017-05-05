@@ -34,12 +34,12 @@
         return albumPicasso;
     };
     Fixtures.getCollection = function(numberOfAlbums) {
-          this.albumCollection = [];
-      for (var i=0; i < numberOfAlbums.length; i++) {
-             albumCollection.push(albumPicasso.songs[i]);
-      }
-
-    };
+          var albumCollection = [];
+         for (var i=0; i<numberOfAlbums; i++){
+             albumCollection.push(albumPicasso);
+         }
+         return albumCollection;
+     };
          return Fixtures;
      }
 
