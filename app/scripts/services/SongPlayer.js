@@ -18,7 +18,7 @@
             /**
             * @desc Buzz object audio file
             * @type {Object}
-            */     
+            */
             currentBuzzObject = new buzz.sound(song.audioUrl, {
                 formats: ['mp3'],
                 preload: true
@@ -26,6 +26,15 @@
 
             currentSong = song;
         };
+        /**
+     		 * @function playSong
+     		 * @desc Plays the currentBuzzObject and sets the property of the song Object to true
+     		 * @param {Object} song
+     		 */
+     		var playSong = function (song) {
+     			currentBuzzObject.play();
+     			song.playing = true;
+     		};
 
         SongPlayer.play = function(song) {
             if (currentSong !== song) {
