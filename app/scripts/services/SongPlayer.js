@@ -36,14 +36,20 @@
             song.playing = true;
         };
 
+
+ 		/**
+ 		 * @function SongPlayer.play
+ 		 * @desc Public method that takes a song object parameter. If the buzz object Song is not the same as the current
+ 		 * then a new song will load and play. If the buzz object Song is the same, and if it is paused, then the song will play.
+ 		 * @param {Object} song
+ 		 */
         SongPlayer.play = function(song) {
             if (currentSong !== song) {
                 setSong(song);
-                currentBuzzObject.play();
-                song.playing = true;
+                playSong(song);
             } else if (currentSong === song) {
                 if (currentBuzzObject.isPaused()) {
-                    currentBuzzObject.play();
+                      playSong(song);
                 }
             }
         };
