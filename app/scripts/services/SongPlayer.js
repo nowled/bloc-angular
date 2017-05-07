@@ -1,42 +1,48 @@
 (function() {
-     function SongPlayer() {
-          var SongPlayer = {};
-          var currentSong = null;
-          var currentBuzzObject = null;
+    function SongPlayer() {
+        var SongPlayer = {};
+        var currentSong = null;
+        var currentBuzzObject = null;
 
-          SongPlayer.play = function(song) {
-            if (currentSong !== song) {
+        /**
+ * @function setSong
+ * @desc Stops currently playing song and loads new audio file as currentBuzzObject
+ * @param {Object} song
+ */
+
+        var setSong = function(song) {
             if (currentBuzzObject) {
                 currentBuzzObject.stop();
                 currentSong.playing = null;
+            }
             /**
-            If the currently playing song is not the same as the song the user
-            clicks on, then we want to:
+            * @desc Buzz object audio file
+            * @type {Object}
+            */     
+            currentBuzzObject = new buzz.sound(song.audioUrl, {
+                formats: ['mp3'],
+                preload: true
+            });
 
-             Stop the currently playing song, if there is one.
-             Set a new Buzz sound object.
-             Set the newly chosen song object as the currentSong.
-              Play the new Buzz sound object.
-            **/
-          } else if (currentSong === song) {
-     if (currentBuzzObject.isPaused()) {
-         currentBuzzObject.play();
-     }
- }
-         currentBuzzObject = new buzz.sound(song.audioUrl, {
-            formats: ['mp3'],
-            preload: true
-        });
+            currentSong = song;
+        };
 
-         currentSong = song;
+        SongPlayer.play = function(song) {
+            if (currentSong !== song) {
+                 setSong(song);
+                currentBuzzObject.play();
+                song.playing = true;
+              }else if (currentSong === song) {
+                      if (currentBuzzObject.isPaused()) {
+                          currentBuzzObject.play();
+                      }
+                  }
+        };
 
-        currentBuzzObject.play();
-      }
-    };
-          return SongPlayer;
-     }
+        return SongPlayer;
+    }
 
-     angular
-         .module('blocJams')
-         .factory('SongPlayer', SongPlayer);
- })();
+    angular
+        .module('blocJams')
+        .factory('SongPlayer', SongPlayer);
+})();
