@@ -1,7 +1,10 @@
 (function() {
-    function SongPlayer() {
+    function SongPlayer(Fixtures) {
+        /**
+        @desc Private functions
+        **/
         var SongPlayer = {};
-        var currentSong = null;
+        var currentAlbum = Fixtures.getAlbum();
         var currentBuzzObject = null;
 
         /**
@@ -13,7 +16,7 @@
         var setSong = function(song) {
             if (currentBuzzObject) {
                 currentBuzzObject.stop();
-                currentSong.playing = null;
+                SongPlayer.currentSong.playing = null;
             }
             /**
              * @desc Buzz object audio file
@@ -24,8 +27,10 @@
                 preload: true
             });
 
-            currentSong = song;
+            SongPlayer.currentSong = song;
         };
+        /**
+
         /**
          * @function playSong
          * @desc Plays the currentBuzzObject and sets the property of the song Object to true
@@ -36,26 +41,55 @@
             song.playing = true;
         };
 
+        var getSongIndex = function(song) {
+            return currentAlbum.songs.indexOf(song);
+        };
 
- 		/**
- 		 * @function SongPlayer.play
- 		 * @desc Public method that takes a song object parameter. If the buzz object Song is not the same as the current
- 		 * then a new song will load and play. If the buzz object Song is the same, and if it is paused, then the song will play.
- 		 * @param {Object} song
- 		 */
+        /**
+         * @desc Active public song object from list of songs
+         * @type {Object}
+         */
+        SongPlayer.currentSong = null;
+
+        /**
+         * @function SongPlayer.play
+         * @desc Public method that takes a song object parameter. If the buzz object Song is not the same as the current
+         * then a new song will load and play. If the buzz object Song is the same, and if it is paused, then the song will play.
+         * @param {Object} song
+         */
         SongPlayer.play = function(song) {
-            if (currentSong !== song) {
+            song = song || SongPlayer.currentSong;
+            if (SongPlayer.currentSong !== song) {
                 setSong(song);
                 playSong(song);
-            } else if (currentSong === song) {
+            } else if (SongPlayer.currentSong === song) {
                 if (currentBuzzObject.isPaused()) {
-                      playSong(song);
+                    playSong(song);
                 }
             }
         };
         SongPlayer.pause = function(song) {
+            song = song || SongPlayer.currentSong;
             currentBuzzObject.pause();
             song.playing = false;
+        };
+        /**
+         * @function SongPlayer.previous
+         * @desc A Public Method that uses the  getSongIndex object to get the index of the currently
+           playing song and then decrease that index by one.
+         * @type {Object}
+         */
+        SongPlayer.previous = function() {
+            var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+            currentSongIndex--;
+            if (currentSongIndex < 0) {
+                currentBuzzObject.stop();
+                SongPlayer.currentSong.playing = null;
+            } else {
+                var song = currentAlbum.songs[currentSongIndex];
+                setSong(song);
+                playSong(song);
+            }
         };
 
         return SongPlayer;
@@ -63,5 +97,5 @@
 
     angular
         .module('blocJams')
-        .factory('SongPlayer', SongPlayer);
+        .factory('SongPlayer', ['Fixtures', SongPlayer]);
 })();
