@@ -32,6 +32,12 @@
                         width: percentString()
                     };
                 };
+                scope.thumbStyle = function() {
+                    return {
+                        left: percentString()
+                    };
+                };
+
 
                 scope.onClickSeekBar = function(event) {
                     var percent = calculatePercent(seekBar, event);
@@ -42,8 +48,11 @@
                     $document.bind('mousemove.thumb', function(event) {
                         var percent = calculatePercent(seekBar, event);
                         scope.$apply(function() {
+                          // value percent is used as a binding target
+                          //the scope allows us to know when data
+                          //has changed
                             scope.value = percent * scope.max;
-                        });
+                       });
                     });
 
                     $document.bind('mouseup.thumb', function() {
