@@ -38,7 +38,7 @@
                     });
                 });
 
-          
+
             SongPlayer.currentSong = song;
         };
         /**
@@ -75,7 +75,7 @@
     * @desc private volume setting properties
     * @type {number}
     **/
-        SongPlayer.volume = 75;
+        SongPlayer.volume = 25;
         SongPlayer.maxVolume = 100;
 
 
