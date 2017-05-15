@@ -6,6 +6,22 @@
         var SongPlayer = {};
         var currentAlbum = Fixtures.getAlbum();
         var currentBuzzObject = null;
+        /**
+         * @desc Active public song object from list of songs
+         * @type {Object}
+         */
+        SongPlayer.currentSong = null;
+        /**
+         * @desc Current playback time (in seconds) of currently playing song
+         * @type {Number}
+         */
+        SongPlayer.currentTime = null;
+        /**
+         * @desc private volume setting properties
+         * @type {number}
+         **/
+        SongPlayer.volume = 25;
+        SongPlayer.maxVolume = 100;
 
         /**
          * @function setSong
@@ -33,10 +49,18 @@
              */
 
             currentBuzzObject.bind('timeupdate', function() {
-                    $rootScope.$apply(function() {
-                        SongPlayer.currentTime = currentBuzzObject.getTime();
-                    });
+                $rootScope.$apply(function() {
+                    SongPlayer.currentTime = currentBuzzObject.getTime();
                 });
+            });
+            /**
+             * @desc Buzz object volume updates when the seek bar is dragged
+             */
+            currentBuzzObject.bind('volumechange', function() {
+                $rootScope.$apply(function() {
+                    SongPlayer.volume = currentBuzzObject.getVolume();
+                });
+            });
 
 
             SongPlayer.currentSong = song;
@@ -61,22 +85,7 @@
             return currentAlbum.songs.indexOf(song);
         };
 
-        /**
-         * @desc Active public song object from list of songs
-         * @type {Object}
-         */
-        SongPlayer.currentSong = null;
-        /**
-         * @desc Current playback time (in seconds) of currently playing song
-         * @type {Number}
-         */
-        SongPlayer.currentTime = null;
-        /**
-    * @desc private volume setting properties
-    * @type {number}
-    **/
-        SongPlayer.volume = 25;
-        SongPlayer.maxVolume = 100;
+
 
 
         /**
@@ -147,10 +156,10 @@
        * @param {number}
 
         **/
-        SongPlayer.setVolume = function(volume){
-             if(currentBuzzObject){
+        SongPlayer.setVolume = function(volume) {
+            if (currentBuzzObject) {
                 currentBuzzObject.setVolume(volume);
-             }
+            }
         };
 
 
@@ -159,5 +168,5 @@
 
     angular
         .module('blocJams')
-         .factory('SongPlayer', ['$rootScope', 'Fixtures', SongPlayer]);
+        .factory('SongPlayer', ['$rootScope', 'Fixtures', SongPlayer]);
 })();
