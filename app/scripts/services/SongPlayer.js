@@ -131,6 +131,7 @@
                 currentBuzzObject.setTime(time);
             }
         };
+        
 
         return SongPlayer;
     }
